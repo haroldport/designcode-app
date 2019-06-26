@@ -8,10 +8,12 @@ import { NotificationIcon } from '../components/Icons'
 import Logo from '../components/Logo'
 import Course from '../components/Course'
 import Menu from '../components/Menu'
+import Avatar from '../components/Avatar'
 
 function mapStateToProps(state) {
   return {
-    action: state.action
+    action: state.action,
+    name: state.name
   }
 }
 
@@ -76,12 +78,12 @@ class HomeScreen extends Component {
               <TitleBar>
                 <TouchableOpacity 
                   onPress={this.props.openMenu} 
-                  style={{ position: "absolute", top: 0, left: 0 }}
+                  style={{ position: "absolute", top: 0, left: 20 }}
                 >
-                  <Avatar source={require('../assets/avatar.jpg')} />
+                  <Avatar />
                 </TouchableOpacity>
                 <Title>Welcome back,</Title>
-                <Name>Harold</Name>
+                <Name>{this.props.name}</Name>
                 <NotificationIcon style={{ position: "absolute", right: 20, top: 5 }} />
               </TitleBar>
               <ScrollView
@@ -144,15 +146,6 @@ const RootView = styled.View`
   flex: 1;
 `
 
-const Avatar = styled.Image`
-  width: 44px;
-  height: 44px;
-  background: black;
-  border-radius: 22px;
-  margin-left: 20px;
-  top: 0;
-  left: 0;
-`
 const Container = styled.View`
   flex: 1;
   background-color: #f0f3f5;
