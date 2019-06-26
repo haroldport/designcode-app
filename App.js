@@ -1,7 +1,8 @@
 import React from 'react';
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import HomeScreen from './screens/HomeScreen'
+
+import AppNavigator from './navigator/AppNavigator'
 
 const initialState = {
   action: "",
@@ -21,7 +22,7 @@ const store = createStore(reducer)
 
 const App = () => (
   <Provider store={store}>
-    <HomeScreen />
+    <AppNavigator />
   </Provider>
 )
 
