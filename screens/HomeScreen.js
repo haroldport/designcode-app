@@ -1,9 +1,16 @@
 import React, { Component } from 'react'
-import { Animated, Easing, ScrollView, SafeAreaView, TouchableOpacity, StatusBar } from 'react-native'
+import { Animated, Easing, ScrollView, SafeAreaView, TouchableOpacity, StatusBar, Platform } from 'react-native'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
-import ApolloClient from 'apollo-boost'
 import gql from 'graphql-tag'
+
+import Card from '../components/Card'
+import { NotificationIcon } from '../components/Icons'
+import Logo from '../components/Logo'
+import Course from '../components/Course'
+import Menu from '../components/Menu'
+import Avatar from '../components/Avatar'
+import { Query } from 'react-apollo';
 
 const CardsQuery = gql`
   {
@@ -38,14 +45,6 @@ const CardsQuery = gql`
   }
 `
 
-import Card from '../components/Card'
-import { NotificationIcon } from '../components/Icons'
-import Logo from '../components/Logo'
-import Course from '../components/Course'
-import Menu from '../components/Menu'
-import Avatar from '../components/Avatar'
-import { Query } from 'react-apollo';
-
 function mapStateToProps(state) {
   return {
     action: state.action,
@@ -73,6 +72,10 @@ class HomeScreen extends Component {
 
   componentDidMount() {
     StatusBar.setBarStyle("dark-content", true)
+
+    if(Platform.OS == "android") {
+      StatusBar.setBarStyle("light-content", true)
+    }
   }
 
   componentDidUpdate() {
@@ -136,7 +139,7 @@ class HomeScreen extends Component {
                   ))
                 }
               </ScrollView>
-              <Subtitle>Continue Learning</Subtitle>
+              <Subtitle>{"Continue Learning".toUpperCase()}</Subtitle>
               <ScrollView
                 horizontal={true}
                 style={{ paddingBottom: 30 }}
@@ -173,21 +176,23 @@ class HomeScreen extends Component {
                   }
                 </Query>
               </ScrollView>
-              <Subtitle>Popular Courses</Subtitle>
-              {
-                courses.map((course, index) => (
-                  <Course
-                    key={index}
-                    image={course.image}
-                    title={course.title}
-                    subtitle={course.subtitle}
-                    logo={course.logo}
-                    author={course.author}
-                    avatar={course.avatar}
-                    caption={course.caption}
-                  />
-                ))
-              }
+              <Subtitle>{"Popular Courses".toUpperCase()}</Subtitle>
+              <CoursesContainer>
+                {
+                  courses.map((course, index) => (
+                    <Course
+                      key={index}
+                      image={course.image}
+                      title={course.title}
+                      subtitle={course.subtitle}
+                      logo={course.logo}
+                      author={course.author}
+                      avatar={course.avatar}
+                      caption={course.caption}
+                    />
+                  ))
+                }
+              </CoursesContainer>
             </ScrollView>
           </SafeAreaView>
         </AnimatedContainer>
@@ -203,6 +208,12 @@ const RootView = styled.View`
   flex: 1;
 `
 
+const CoursesContainer = styled.View`
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-left: 10px;
+`
+
 const Message = styled.Text`
   margin: 20px;
   color: #b8bece;
@@ -212,6 +223,7 @@ const Message = styled.Text`
 
 const CardsContainer = styled.View`
   flex-direction: row;
+  padding-left: 10px;
 `
 
 const Container = styled.View`
